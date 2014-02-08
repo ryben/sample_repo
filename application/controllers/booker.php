@@ -128,7 +128,73 @@ class Booker extends CI_Controller {
             'status_check' 	=> $status_check,
         );
 
-        return $this->book_model->query_result($details);
+
+        $table = $this->book_model->query_result($details);
+        if ($table == null) return null;
+        foreach($table as $row):
+                //echo $row->book_no;
+        
+                $table_copy[$row->book_no] = $row;
+
+            //transfer contents of table to $sorted + structure of points
+            $arr = explode(" ", $search_term);
+            $booktitle = explode(" ", $row->book_title);
+            $descr = explode(" ", $row->description);
+            $tg = explode(",", $row->Tags);
+            $points;
+
+            // echo $arr[1];
+
+
+            // foreach ($arr as $maila):
+            $points[$row->book_no] = 0;
+                // endforeach;
+
+
+            foreach ($arr as $maila):
+
+                foreach($booktitle as $ysa):
+                   if(strcasecmp($maila, $ysa)==0){
+                         $points[$row->book_no] += 100;
+                    }
+                   
+                endforeach;
+                foreach($descr as $ysa1):
+                    if(strcasecmp($maila, $ysa1)==0){
+                          $points[$row->book_no] += 10;
+                    }
+                endforeach;
+                foreach($tg as $ysa2):
+                    if(strcasecmp($maila, $ysa2)==0){
+                         $points[$row->book_no] += 1;
+                    }
+                endforeach;
+            endforeach;
+
+
+
+            // echo " " . $row->book_no . " " . $points[$row->book_no] . "<br/>";
+
+
+        endforeach;
+
+
+
+        $counter = 0;
+        foreach ($points as $key => $value):
+                $table[$counter++] = $table_copy[$key];
+            // echo $key;
+        endforeach;
+            //compute points
+                //parse search term, programatically compare to book title, desc and tags
+                //$sorted[book_no] = $row1
+                //$points[book_no] = points
+            //sort
+            //printing
+
+
+        return $table;
+
     }
 
 }

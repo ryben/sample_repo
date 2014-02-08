@@ -12,10 +12,9 @@
 
 					<a>Search by:</a>
 					<select name="search_by">
-						<option value="book_title"> Book Title </option>
+						<option value="book_title"> Title/Description </option>
 						<option value="book_no"> Book Number </option>
 						<option value="status"> Status </option>
-						<option value="description"> Description </option>
 						<option value="publisher"> Publisher</option>
 						<option value="name"> Author</option>
 						<option value="date_published"> Date Published</option>
